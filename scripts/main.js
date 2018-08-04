@@ -59,6 +59,7 @@ let basicSpeed = 1;
 
 // clean game board
 function cleanBoard() {
+
     for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
             grid[i][j] = 0;
@@ -68,6 +69,7 @@ function cleanBoard() {
 
 // check full line
 function cleanFullLine() {
+
     for (let i = 0; i < height ; i++) {
         if (!contains(grid[i], 0)) {
             cleanLine(i);
@@ -77,6 +79,7 @@ function cleanFullLine() {
 
 //
 function contains(arr, val) {
+
     for (let i = 0, len = arr.length; i < len; i++)
         if (arr[i] === val)
             return true;
@@ -85,6 +88,7 @@ function contains(arr, val) {
 
 // clean one line
 function cleanLine(line) {
+
     for (let i = line; i > 0; i--) {
         grid[i] = grid[i - 1].slice();
     }
@@ -94,16 +98,19 @@ function cleanLine(line) {
 
 // get current score
 function getScore() {
+
     return score;
 }
 
 // get current speed
 function getSpeed() {
+
     return basicSpeed + score / 10;
 }
 
 // get current height
 function getHeight() {
+
     for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
             if (grid[i][j] !== 0) {
@@ -116,12 +123,12 @@ function getHeight() {
 
 // get a random block;
 function getRandomBlock() {
+
     let index = Math.floor(Math.random() * 7 + 1);
     let shape;
     switch (index) {
         case 1:
             shape = shapes.I;
-            break;
             break;
         case 2:
             shape = shapes.J;
@@ -156,6 +163,7 @@ function initBlocks() {
 
 // insert current block into grid
 function insertCurrentBlock() {
+
     let shape = currentBlock.shape;
     let offsetCol = currentBlock.col;
     let offsetRow = currentBlock.row;
@@ -173,6 +181,7 @@ function insertCurrentBlock() {
 
 // remove current block from grid
 function removeCurrentBlock() {
+
     let shape = currentBlock.shape;
     let offsetCol = currentBlock.col;
     let offsetRow = currentBlock.row;
@@ -269,7 +278,7 @@ function moveRight() {
 
     removeCurrentBlock();
 
-    // check if it is safe to move to the left column
+    // check if it is safe to move to the right column
     for (let sRow = shape.length - 1; sRow >= 0 ; sRow--) {
         for (let sCol = shape[0].length - 1; sCol >= 0 ; sCol--) {
             // check last block of each row if its not empty

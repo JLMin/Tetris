@@ -54,6 +54,7 @@ function drawUpcoming(shape) {
 }
 
 function updateInfo() {
+    
     $score.text(getScore());
     $speed.text(getSpeed());
     // $height.text(getHeight());
@@ -61,6 +62,7 @@ function updateInfo() {
 
 // draw game board & upcoming block
 function gameLoop(timestamp) {
+
     if (!start) start = timestamp;
     let progress = timestamp - start;
     if (progress > 1000 / getSpeed()) {
@@ -84,6 +86,7 @@ function gameLoop(timestamp) {
 
 // initialize game
 function init() {
+
     console.log('Game Initiallizing...');
     initBlocks();
     setBlocks();
