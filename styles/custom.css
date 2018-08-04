@@ -1,0 +1,51 @@
+/*
+colors:
+    background : #282c34
+    color : #5c636c
+*/
+
+body {
+    background-color: #282c34;
+    color: #5c636c;
+    /* color: #abb2bf; */
+    font-size: 18px;
+}
+
+#main {
+    margin-top: 20px;
+}
+
+#title h1 {
+    margin-bottom: 0;
+}
+
+.normal-size {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#game-board {
+    margin-top: 40px;
+}
+
+#grid, #upcoming {
+    font-family: Inconsolata;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 23px;
+    text-align: left;
+    min-width: 430px;
+}
+
+#info {
+    min-width: 350px;
+}
+
+#upcoming {
+    padding-left: 25px;
+    height: 92px;
+}
+
+#score {
+    padding-left: 10px;
+}
