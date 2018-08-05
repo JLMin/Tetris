@@ -7,8 +7,12 @@ colors:
 body {
     background-color: #282c34;
     color: #5c636c;
-    /* color: #abb2bf; */
     font-size: 18px;
+}
+
+.normal-size {
+    font-size: 22px;
+    margin-bottom: 10px;
 }
 
 #main {
@@ -17,11 +21,6 @@ body {
 
 #title h1 {
     margin-bottom: 0;
-}
-
-.normal-size {
-    font-size: 22px;
-    margin-bottom: 10px;
 }
 
 #game-board {
