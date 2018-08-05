@@ -212,7 +212,7 @@ function moveLeft() {
                 // it is a empty block, skip
                 continue;
             }
-            // this row is checked, break to the next columns
+            // this row is checked, break to the next row
             break;
         }
     }
@@ -249,7 +249,7 @@ function moveRight() {
                 // it is a empty block, skip
                 continue;
             }
-            // this row is checked, break to the next columns
+            // this row is checked, break to the next row
             break;
         }
     }
