@@ -4,6 +4,8 @@
 const divGrid     = document.querySelector('#grid');
 const divUpcoming = document.querySelector('#upcoming');
 const spanScore   = document.querySelector('#score');
+const spanLscore  = document.querySelector('#last-score');
+const spanHscore  = document.querySelector('#highest-score');
 const spanSpeed   = document.querySelector('#speed');
 const btnStart    = document.querySelector('#start');
 
@@ -55,8 +57,9 @@ let upcomingBlock = { 'col': 4, 'row': 0, 'shape': null };
 let blockList = [];
 
 let score = 0;
+let lastScore = 0;
+let highestScore = 0;
 let speedFactor = 1;
-let gameSpeed = speedFactor + score / 10;
 let gameState = 'OVER';
 
 
@@ -333,9 +336,15 @@ function drawUpcoming() {
     divUpcoming.innerHTML = html;
 }
 
+function getSpeed() {
+    return speedFactor + score / 10;
+}
+
 function updateInfo() {
     spanScore.innerHTML = score;
-    spanSpeed.innerHTML = gameSpeed;
+    spanLscore.innerHTML = lastScore;
+    spanHscore.innerHTML = highestScore;
+    spanSpeed.innerHTML = getSpeed();
 }
 
 let timer = null;
@@ -346,13 +355,15 @@ function gameLoop(timestamp) {
         if (!timer) timer = timestamp;
         let progress = timestamp - timer;
 
-        if (progress > 1000 / gameSpeed) {
+        if (progress > 1000 / getSpeed()) {
             timer = timestamp;
             blockFixed = !moveDown();
 
             if (blockFixed) {
                 clearFilledLine();
                 if (gameOver()){
+                    lastScore = score;
+                    highestScore = Math.max(lastScore, highestScore);
                     initGame();
                 } else {
                     updateBlocks();
