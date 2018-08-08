@@ -1,18 +1,16 @@
-/*
-colors:
-    background : #282c34
-    color : #5c636c
-*/
+html {
+    overflow: hidden;
+}
 
 body {
-    background-color: #282c34;
     color: #5c636c;
+    background-color: #282c34;
     font-size: 18px;
 }
 
 .normal-size {
-    font-size: 22px;
     margin-bottom: 10px;
+    font-size: 22px;
 }
 
 #main {
@@ -25,26 +23,48 @@ body {
 
 #game-board {
     margin-top: 40px;
+    min-width: 1000px;
+}
+
+#grid {
+    min-height: 460px;
 }
 
 #grid, #upcoming {
+    min-width: 430px;
+    text-align: left;
+    letter-spacing: 2px;
     font-family: Inconsolata;
     font-weight: bold;
-    letter-spacing: 2px;
     line-height: 23px;
-    text-align: left;
-    min-width: 430px;
 }
 
 #info {
     min-width: 350px;
+    min-height: 460px;
+    position: relative;
 }
 
 #upcoming {
-    padding-left: 25px;
     height: 92px;
+    padding-left: 25px;
 }
 
 #score {
     padding-left: 10px;
+}
+
+#start {
+    width: 160px;
+    height: 40px;
+    color: #5c636c;
+    border-color: #5c636c;
+    font-size: 18px;
+    position: absolute;
+    bottom: 0;
+}
+
+#start:hover {
+    color: #f0f0f0;
+    border-color: #f0f0f0;
 }

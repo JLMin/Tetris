@@ -1,14 +1,15 @@
 /************************************************************
-    DOM Variables - end with line: 7
+    DOM Variables
 ************************************************************/
 const divGrid     = document.querySelector('#grid');
 const divUpcoming = document.querySelector('#upcoming');
 const spanScore   = document.querySelector('#score');
 const spanSpeed   = document.querySelector('#speed');
+const btnStart    = document.querySelector('#start');
 
 
 /************************************************************
-    Game Variables - end with line: 58
+    Game Variables
 ************************************************************/
 const grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -40,7 +41,7 @@ const shapes = {
     I: [[1, 1, 1, 1]],
     J: [[2, 0, 0], [2, 2, 2]],
     L: [[0, 0, 3], [3, 3, 3]],
-    O: [[4, 4], [4, 4]],
+    O: [[4, 4],    [4, 4]],
     S: [[0, 5, 5], [5, 5, 0]],
     T: [[0, 6, 0], [6, 6, 6]],
     Z: [[7, 7, 0], [0, 7, 7]]
@@ -56,10 +57,11 @@ let blockList = [];
 let score = 0;
 let speedFactor = 1;
 let gameSpeed = speedFactor + score / 10;
+let gameState = 'OVER';
 
 
 /************************************************************
-    Game Functions - end with line: 279
+    Game Functions
 ************************************************************/
 function clearBoard() {
     for (let i = 0; i < height; i++)
@@ -109,6 +111,7 @@ function randomBlock() {
 }
 
 function initBlockList() {
+    blockList = [];
     blockList.push(randomBlock());
     blockList.push(randomBlock());
     upcomingBlock = randomBlock();
@@ -280,7 +283,7 @@ function gameOver() {
 
 
 /************************************************************
-    Window Functions - end with line: 371
+    Window Functions
 ************************************************************/
 function drawGrid() {
 
@@ -335,27 +338,32 @@ function updateInfo() {
     spanSpeed.innerHTML = gameSpeed;
 }
 
-let start = null;
+let timer = null;
 let blockFixed = false;
 function gameLoop(timestamp) {
 
-    if (!start) start = timestamp;
-    let progress = timestamp - start;
+    if (gameState === 'RUNNING') {
+        if (!timer) timer = timestamp;
+        let progress = timestamp - timer;
 
-    if (progress > 1000 / gameSpeed) {
-        start = timestamp;
-        blockFixed = !moveDown();
+        if (progress > 1000 / gameSpeed) {
+            timer = timestamp;
+            blockFixed = !moveDown();
 
-        if (blockFixed) {
-            clearFilledLine();
-            if (gameOver())
-                initGame();
-            else
-                updateBlocks();
+            if (blockFixed) {
+                clearFilledLine();
+                if (gameOver()){
+                    initGame();
+                } else {
+                    updateBlocks();
+                }
+            }
+
+            drawUpcoming();
+            updateInfo();
         }
-
-        updateInfo();
-        drawUpcoming();
+    } else if (gameState === 'OVER') {
+        divUpcoming.innerHTML = '';
     }
 
     drawGrid();
@@ -363,7 +371,8 @@ function gameLoop(timestamp) {
 }
 
 function initGame() {
-    console.log('Game Initiallizing...');
+    gameState = 'OVER';
+    btnStart.innerHTML = 'start';
     clearBoard();
     initBlockList();
     updateBlocks();
@@ -375,14 +384,28 @@ function initGame() {
     Game Start Point
 ************************************************************/
 window.onload = () => {
-    initGame();
+
+    btnStart.onclick = () => {
+        if (gameState !== 'RUNNING') {
+            if (gameState === 'OVER') initGame();
+            gameState = 'RUNNING';
+            btnStart.innerHTML = 'pause';
+        } else {
+            gameState = 'PAUSE';
+            btnStart.innerHTML = 'start';
+        }
+    }
+
     addEventListener('keydown', e => {
-        switch (e.key) {
-            case 'w': case 'i': case 'ArrowUp':     rotate();       break;
-            case 'a': case 'j': case 'ArrowLeft':   moveLeft();     break;
-            case 's': case 'k': case 'ArrowDown':   moveDown();     break;
-            case 'd': case 'l': case 'ArrowRight':  moveRight();    break;
+        if (gameState === 'RUNNING') {
+            switch (e.key) {
+                case 'w': case 'i': case 'ArrowUp':     rotate();       break;
+                case 'a': case 'j': case 'ArrowLeft':   moveLeft();     break;
+                case 's': case 'k': case 'ArrowDown':   moveDown();     break;
+                case 'd': case 'l': case 'ArrowRight':  moveRight();    break;
+            }
         }
     });
+
     requestAnimationFrame(gameLoop);
 }
