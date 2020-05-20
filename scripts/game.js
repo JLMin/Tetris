@@ -1,13 +1,13 @@
 /************************************************************
     DOM Variables
 ************************************************************/
-const divGrid     = document.querySelector('#grid');
+const divGrid = document.querySelector('#grid');
 const divUpcoming = document.querySelector('#upcoming');
-const spanScore   = document.querySelector('#score');
-const spanLscore  = document.querySelector('#last-score');
-const spanHscore  = document.querySelector('#highest-score');
-const spanSpeed   = document.querySelector('#speed');
-const btnStart    = document.querySelector('#start');
+const spanScore = document.querySelector('#score');
+const spanLscore = document.querySelector('#last-score');
+const spanHscore = document.querySelector('#highest-score');
+const spanSpeed = document.querySelector('#speed');
+const btnStart = document.querySelector('#start');
 
 
 /************************************************************
@@ -43,14 +43,14 @@ const shapes = {
     I: [[1, 1, 1, 1]],
     J: [[2, 0, 0], [2, 2, 2]],
     L: [[0, 0, 3], [3, 3, 3]],
-    O: [[4, 4],    [4, 4]],
+    O: [[4, 4], [4, 4]],
     S: [[0, 5, 5], [5, 5, 0]],
     T: [[0, 6, 0], [6, 6, 6]],
     Z: [[7, 7, 0], [0, 7, 7]]
 };
 
 const colors = ["5c636c", "e06c75", "bc78dd", "61afef",
-                "e6ca39", "98c36e", "36e0ff", "d19a66"];
+    "e6ca39", "98c36e", "36e0ff", "d19a66"];
 
 let currentBlock = { 'col': 4, 'row': 0, 'shape': null };
 let upcomingBlock = { 'col': 4, 'row': 0, 'shape': null };
@@ -72,7 +72,7 @@ function clearBoard() {
 }
 
 function clearFilledLine() {
-    for (let i = 0; i < height ; i++)
+    for (let i = 0; i < height; i++)
         if (!contains(grid[i], 0))
             clearLine(i);
 }
@@ -135,8 +135,7 @@ function drawCurrentBlock() {
     for (let sRow = 0; sRow < shape.length; sRow++)
         for (let sCol = 0; sCol < shape[sRow].length; sCol++)
             if (shape[sRow][sCol] !== 0 &&
-                grid[offsetRow + sRow][offsetCol + sCol] === 0)
-            {
+                grid[offsetRow + sRow][offsetCol + sCol] === 0) {
                 grid[offsetRow + sRow][offsetCol + sCol] = shape[sRow][sCol];
             }
 }
@@ -153,7 +152,6 @@ function eraseCurrentBlock() {
 }
 
 function moveDown() {
-
     let shape = currentBlock.shape;
     let offsetCol = currentBlock.col;
     let offsetRow = currentBlock.row;
@@ -191,7 +189,6 @@ function moveDown() {
 }
 
 function moveLeft() {
-
     let shape = currentBlock.shape;
     let offsetCol = currentBlock.col;
     let offsetRow = currentBlock.row;
@@ -199,7 +196,7 @@ function moveLeft() {
     eraseCurrentBlock();
 
     // check if it is safe to move to the left column
-    for (let sRow = shape.length - 1; sRow >= 0 ; sRow--) {
+    for (let sRow = shape.length - 1; sRow >= 0; sRow--) {
         for (let sCol = 0; sCol < shape[0].length; sCol++) {
             // check the first non-empty block for each row
             // from left to right
@@ -228,7 +225,6 @@ function moveLeft() {
 }
 
 function moveRight() {
-
     let shape = currentBlock.shape;
     let offsetCol = currentBlock.col;
     let offsetRow = currentBlock.row;
@@ -236,8 +232,8 @@ function moveRight() {
     eraseCurrentBlock();
 
     // check if it is safe to move to the right column
-    for (let sRow = shape.length - 1; sRow >= 0 ; sRow--) {
-        for (let sCol = shape[0].length - 1; sCol >= 0 ; sCol--) {
+    for (let sRow = shape.length - 1; sRow >= 0; sRow--) {
+        for (let sCol = shape[0].length - 1; sCol >= 0; sCol--) {
             // check the first non-empty block for each row
             // from right to left
             if (shape[sRow][sCol] !== 0) {
@@ -265,13 +261,12 @@ function moveRight() {
 }
 
 function rotate() {
-
     eraseCurrentBlock();
     let shape = currentBlock.shape;
     let newShape = [];
     for (let i = 0; i < shape[0].length; i++) {
         let newLine = [];
-        for (let j = shape.length - 1; j >= 0 ; j--) {
+        for (let j = shape.length - 1; j >= 0; j--) {
             newLine.push(shape[j][i]);
         }
         newShape.push(newLine);
@@ -289,7 +284,6 @@ function gameOver() {
     Window Functions
 ************************************************************/
 function drawGrid() {
-
     divGrid.innerHTML = '';
     let html = '';
 
@@ -311,7 +305,6 @@ function drawGrid() {
         html += ']';
         if (i < height - 1)
             html += '<br>';
-
     }
 
     html += '];';
@@ -319,7 +312,6 @@ function drawGrid() {
 }
 
 function drawUpcoming() {
-
     let shape = upcomingBlock.shape;
     divUpcoming.innerHTML = '';
     let html = '';
@@ -347,10 +339,13 @@ function updateInfo() {
     spanSpeed.innerHTML = getSpeed();
 }
 
+
+/************************************************************
+    Main Loop
+************************************************************/
 let timer = null;
 let blockFixed = false;
 function gameLoop(timestamp) {
-
     if (gameState === 'RUNNING') {
         if (!timer) timer = timestamp;
         let progress = timestamp - timer;
@@ -361,7 +356,7 @@ function gameLoop(timestamp) {
 
             if (blockFixed) {
                 clearFilledLine();
-                if (gameOver()){
+                if (gameOver()) {
                     lastScore = score;
                     highestScore = Math.max(lastScore, highestScore);
                     initGame();
@@ -410,10 +405,10 @@ window.onload = () => {
     addEventListener('keydown', e => {
         if (gameState === 'RUNNING') {
             switch (e.key) {
-                case 'w': case 'i': case 'ArrowUp':     rotate();       break;
-                case 'a': case 'j': case 'ArrowLeft':   moveLeft();     break;
-                case 's': case 'k': case 'ArrowDown':   moveDown();     break;
-                case 'd': case 'l': case 'ArrowRight':  moveRight();    break;
+                case 'w': case 'i': case 'ArrowUp': rotate(); break;
+                case 'a': case 'j': case 'ArrowLeft': moveLeft(); break;
+                case 's': case 'k': case 'ArrowDown': moveDown(); break;
+                case 'd': case 'l': case 'ArrowRight': moveRight(); break;
             }
         }
     });
